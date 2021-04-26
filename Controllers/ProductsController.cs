@@ -15,33 +15,33 @@ namespace Tarea3.Controllers
 
         private readonly ILogger<CustomersController> _logger;
 
-        public CustomersController(ILogger<CustomersController> logger)
+        public ProductsController(ILogger<CustomersController> logger)
         {
             this.dbcontext = new NorthWindContext();
             _logger = logger;
         }
 
         [HttpGet]
-        [Route("/Customers")]
-        public List<Customer> GetAll()
+        [Route("/Products")]
+        public List<Product> GetAll()
         {
-            return this.dbcontext.Customers.ToList();
+            return this.dbcontext.Products.ToList();
         }
 
         [HttpGet]
-        [Route("/Customers/{id}")]
-        public Object Get(string id)
+        [Route("/Products/{id}")]
+        public Object Get(int id)
         {
-            return this.dbcontext.Customers.Where(Customer => Customer.CustomerId == id).FirstOrDefault();
+            return this.dbcontext.Products.Where(Product => Product.ProductId == id).FirstOrDefault();
 
         }
 
-        [HttpPut("/Customers")]
-        public string Put(Customer cst)
+        [HttpPut("/Products")]
+        public string Put(Product pdc)
         {
             
             try{
-                dbcontext.Customers.Add(cst);
+                dbcontext.Products.Add(pdc);
                 dbcontext.SaveChanges();
                 return "Ok";
             }catch(Exception e){
@@ -50,28 +50,28 @@ namespace Tarea3.Controllers
 
         }
 
-        [HttpDelete("/Customers/{id}")]
-        public string Delete(string id)
+        [HttpDelete("/Products/{id}")]
+        public string Delete(int id)
         {
             
-            Customer cust = this.dbcontext.Customers.Where(Customer => Customer.CustomerId == id).FirstOrDefault();
+            Product pdc = this.dbcontext.Products.Where(Product => Product.ProductId == id).FirstOrDefault();
             
-            if(cust != null){
-                dbcontext.Remove(cust);
+            if(pdc != null){
+                dbcontext.Remove(pdc);
                 dbcontext.SaveChanges();
-                return "Customer removed";
+                return "Product removed";
             }else{
-                return "Customer does not exist.";
+                return "Product does not exist.";
             }
 
         }
 
-        [HttpPost("/Customers")]
-        public string Post(Customer cst)
+        [HttpPost("/Products")]
+        public string Post(Product pdc)
         {
             
             try{
-                dbcontext.Customers.Update(cst);
+                dbcontext.Products.Update(pdc);
                 dbcontext.SaveChanges();
                 return "Ok";
             }catch(Exception e){
